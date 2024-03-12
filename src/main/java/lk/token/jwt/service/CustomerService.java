@@ -36,9 +36,9 @@ public class CustomerService {
     public HashMap<String, String> logInCustomer(CustomerDTO customerDTO) {
 
         HashMap<String, String> response = new HashMap<>();
-
         Customer userByEmailAndPassword = customerRepo.findUserByEmailAndPassword(customerDTO.getEmail(), customerDTO.getPassword());
 
+        System.out.println(userByEmailAndPassword);
         if (userByEmailAndPassword != null) {
             String token = this.jwtTokenGenerator.generateJwtToken(customerDTO);
             response.put("token", token);
@@ -48,19 +48,29 @@ public class CustomerService {
         return response;
     }
 
-    public Customer updateCustomer(Integer id, CustomerDTO customerDTO, String authorizationHeader) {
-        if (this.jwtTokenGenerator.validateJwtToken(authorizationHeader)){
-            if (customerRepo.existsById(id)) {
-                Customer save = customerRepo.save(new Customer(id, customerDTO.getEmail(),customerDTO.getPassword(),customerDTO.getNic()));
-                return save;
-            }else{
-                return null;
-            }
+    public Customer updateCustomer(Integer id, CustomerDTO customerDTO) {
+        if(customerRepo.existsById(id)){
+            Customer save = customerRepo.save(new Customer(id, customerDTO.getEmail(),customerDTO.getPassword(),customerDTO.getNic()));
+            return save;
         }else{
             return null;
         }
 
-
     }
+
+//    public Customer updateCustomer(Integer id, CustomerDTO customerDTO, String authorizationHeader) {
+//        if (this.jwtTokenGenerator.validateJwtToken(authorizationHeader)){
+//            if (customerRepo.existsById(id)) {
+//                Customer save = customerRepo.save(new Customer(id, customerDTO.getEmail(),customerDTO.getPassword(),customerDTO.getNic()));
+//                return save;
+//            }else{
+//                return null;
+//            }
+//        }else{
+//            return null;
+//        }
+//
+//
+//    }
 
 }

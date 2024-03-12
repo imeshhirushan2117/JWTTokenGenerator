@@ -16,12 +16,12 @@ import lombok.ToString;
  * Date : Mar 9, 2024
  * Time : 9:51 PM
  */
+
 @Entity
 @Data
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class Customer {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)

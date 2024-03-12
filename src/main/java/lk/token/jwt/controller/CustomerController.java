@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.Map;
 
 
 /**
@@ -29,11 +28,10 @@ public class CustomerController {
     final CustomerService customerService;
     final JWTTokenGenerator jwtTokenGenerator;
 
-
     @Autowired
-    public CustomerController(CustomerService customerService, JWTTokenGenerator jwtTokenGenerator, CustomerRepo customerRepo) {
+    public CustomerController(CustomerService customerService, JWTTokenGenerator jwtTokenGenerator, CustomerRepo customerRepo, JWTTokenGenerator jwtTokenGenerator1) {
         this.customerService = customerService;
-        this.jwtTokenGenerator = jwtTokenGenerator;
+        this.jwtTokenGenerator = jwtTokenGenerator1;
     }
 
 
@@ -49,10 +47,21 @@ public class CustomerController {
         return new ResponseEntity<>(stringStringHashMap, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{customerId}" )
-    public ResponseEntity<Customer> updateCustomer(@PathVariable Integer customerId , @RequestBody CustomerDTO customerDTO , @RequestHeader (name = "Authorization") String authorizationHeader){
-        Customer customer = customerService.updateCustomer(customerId, customerDTO , authorizationHeader);
-        return new ResponseEntity<>(customer,HttpStatus.OK);
-    }
+//    @PutMapping("/{customerId}" )
+//    public ResponseEntity<Customer> updateCustomer(@PathVariable Integer customerId , @RequestBody CustomerDTO customerDTO , @RequestHeader (name = "Authorization") String authorizationHeader){
+//        Customer customer = customerService.updateCustomer(customerId, customerDTO , authorizationHeader);
+//        return new ResponseEntity<>(customer,HttpStatus.OK);
+//    }
 
+
+    @PutMapping("/updateCustomer/{customerId}")
+    public ResponseEntity<Object> updateCustomer(@PathVariable Integer customerId , @RequestBody CustomerDTO customerDTO , @RequestHeader (name = "Authorization") String authorization){
+
+        if (jwtTokenGenerator.validateJwtToken(authorization)){
+            Customer customer = customerService.updateCustomer(customerId, customerDTO);
+            return new ResponseEntity<>(customer,HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>("invalid Token", HttpStatus.FORBIDDEN);
+        }
+    }
 }
