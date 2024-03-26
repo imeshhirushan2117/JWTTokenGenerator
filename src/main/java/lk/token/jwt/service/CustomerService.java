@@ -34,7 +34,6 @@ public class CustomerService {
     }
 
     public HashMap<String, String> logInCustomer(CustomerDTO customerDTO) {
-
         HashMap<String, String> response = new HashMap<>();
         Customer userByEmailAndPassword = customerRepo.findUserByEmailAndPassword(customerDTO.getEmail(), customerDTO.getPassword());
 

@@ -47,12 +47,6 @@ public class CustomerController {
         return new ResponseEntity<>(stringStringHashMap, HttpStatus.CREATED);
     }
 
-//    @PutMapping("/{customerId}" )
-//    public ResponseEntity<Customer> updateCustomer(@PathVariable Integer customerId , @RequestBody CustomerDTO customerDTO , @RequestHeader (name = "Authorization") String authorizationHeader){
-//        Customer customer = customerService.updateCustomer(customerId, customerDTO , authorizationHeader);
-//        return new ResponseEntity<>(customer,HttpStatus.OK);
-//    }
-
 
     @PutMapping("/updateCustomer/{customerId}")
     public ResponseEntity<Object> updateCustomer(@PathVariable Integer customerId , @RequestBody CustomerDTO customerDTO , @RequestHeader (name = "Authorization") String authorization){
